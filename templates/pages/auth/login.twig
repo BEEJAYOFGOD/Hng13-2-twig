@@ -1,0 +1,39 @@
+{% extends 'layout/base.twig' %}
+
+{% block title %}
+	Login - Ticko
+{% endblock %}
+
+{% block content %}
+	<div class="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+		<div
+			class="w-full max-w-md">
+			<!-- Header -->
+			<div class="mb-8 text-center">
+				<a href="/" class="inline-flex items-center gap-2 mb-6">
+					<div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+						<span class="text-white font-bold">T</span>
+					</div>
+					<span class="font-bold text-xl text-gray-900">Ticko</span>
+				</a>
+				<h1 class="text-2xl font-bold text-gray-900 mb-2">Nice to see you again</h1>
+				<p class="text-gray-600">Sign in to your account to continue</p>
+			</div>
+
+			<!-- Login Form -->
+			{% include 'components/auth/login-form.twig' %}
+
+			<!-- Sign Up Link -->
+			<p class="text-center text-gray-600 text-sm mt-6">
+				Don't have an account?
+				<a href="/auth/signup" class="text-blue-600 hover:underline font-medium">
+					Sign up
+				</a>
+			</p>
+		</div>
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	<script src="/twig-ticket-app/public/js/login.js"></script>
+{% endblock %}

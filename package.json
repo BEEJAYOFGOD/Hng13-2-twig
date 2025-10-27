@@ -1,0 +1,16 @@
+{
+    "name": "twig-ticket-app",
+    "version": "1.0.0",
+    "scripts": {
+        "dev": "npx tailwindcss -i ./src/css/app.css -o ./public/css/app.css --watch",
+        "serve": "browser-sync start --proxy http://localhost/twig-ticket-app --files public/css/*.css,templates/**/*.twig,public/**/*.php --no-notify",
+        "watch": "npm-run-all --parallel dev serve"
+    },
+    "devDependencies": {
+        "autoprefixer": "^10.4.21",
+        "browser-sync": "^3.0.4",
+        "npm-run-all": "^4.1.5",
+        "postcss": "^8.5.6",
+        "tailwindcss": "^3.4.1"
+    }
+}

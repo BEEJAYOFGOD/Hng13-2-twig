@@ -1,0 +1,77 @@
+{% extends "layout/base.twig" %}
+
+{% block title %}Home - Ticket Management System
+{% endblock %}
+
+{% block content %}
+	<div
+		class="min-h-screen">
+		{# Header #}
+		<header class="fixed w-full top-0  z-50 bg-white border-b border-gray-200">
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div class="flex items-center justify-between h-16">
+					<a href="/twig-ticket-app/" class="flex items-center gap-2">
+						<div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+							<span class="text-white font-bold text-lg">T</span>
+						</div>
+						<span class="font-bold text-xl text-gray-900">Ticko</span>
+					</a>
+
+					<nav class="hidden md:flex items-center gap-8">
+						<a href="#features" class="text-gray-700 hover:text-blue-600 transition-colors">Features</a>
+						<a href="#how-it-works" class="text-gray-700 hover:text-blue-600 transition-colors">How It Works</a>
+					</nav>
+
+					<div class="flex items-center gap-3" id="auth-buttons">
+						<a href="/twig-ticket-app/auth/login" class="px-4 py-2 text-gray-700 hover:text-blue-600 transition-colors">
+							Log in
+						</a>
+						<a href="/twig-ticket-app/auth/signup" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+							Sign up
+						</a>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		{# templates/components/hero.twig #}
+		{% include 'components/landingpage/hero.twig' %}
+
+		{# Features Section #}
+		{% include 'components/landingpage/features.twig' %}
+
+
+		{% include 'components/landingpage/stats.twig' %}
+		{% include 'components/landingpage/how.twig' %}
+		{% include 'components/landingpage/faq.twig' %}
+
+		{% include 'components/landingpage/cta.twig' %}
+
+
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		// Check if user is logged in
+document.addEventListener('DOMContentLoaded', function () {
+const session = localStorage.getItem('ticketapp_session');
+const authButtons = document.getElementById('auth-buttons');
+
+if (session) {
+const user = JSON.parse(session);
+authButtons.innerHTML = `
+                <span class="text-gray-700">Hi, ${
+user.name || user.email
+}</span>
+                <a href="/twig-ticket-app/dashboard" class="px-4 py-2 text-gray-700 hover:text-blue-600 transition-colors">
+                    Dashboard
+                </a>
+                <button onclick="logout()" class="px-4 py-2 text-red-600 hover:text-red-700 transition-colors">
+                    Logout
+                </button>
+            `;
+}
+});
+	</script>
+{% endblock %}

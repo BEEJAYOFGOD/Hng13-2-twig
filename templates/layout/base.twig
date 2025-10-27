@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>
+			{% block title %}Ticket Management System
+			{% endblock %}
+		</title>
+
+		{# Remove the CDN - you're building CSS now! #}
+		{# <script src="https://cdn.tailwindcss.com"></script> #}
+
+		{# Your compiled Tailwind CSS #}
+		<link
+		rel="stylesheet" href="/twig-ticket-app/public/css/app.css"> {# Custom CSS (if you have additional styles) #}
+		<link rel="stylesheet" href="/twig-ticket-app/public/css/styles.css"> {% block head %}{% endblock %}
+		</head>
+		<body class="bg-gray-50"> {% block content %}{% endblock %}
+
+			{# Global Scripts #}
+			<script src="/twig-ticket-app/public/js/auth.js"></script>
+
+			{% block scripts %}{% endblock %}
+
+			{% include 'components/footer.twig' %}
+		</body>
+	</html>

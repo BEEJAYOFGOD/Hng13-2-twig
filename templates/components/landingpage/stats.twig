@@ -1,0 +1,34 @@
+<section class="py-20 md:py-32 bg-primary text-white">
+	{% set stats = [
+		  {
+		    value: '10K+',
+		    label: 'Active Users',
+		  },
+		  {
+		    value: '500K+',
+		    label: 'Tickets Resolved',
+		  },
+		  {
+		    value: '99.9%',
+		    label: 'Uptime',
+		  },
+		  {
+		    value: '24/7',
+		    label: 'Support',
+		  },
+		] %}
+
+
+	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="grid md:grid-cols-4 gap-8">
+			{% for stat in stats %}
+				<div class="text-center">
+					<div class="text-4xl md:text-5xl font-bold mb-2">{{ stat.value }}</div>
+					<div class="text-primary-foreground/80">{{ stat.label }}</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+
+
+</section>

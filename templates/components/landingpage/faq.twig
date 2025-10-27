@@ -1,0 +1,77 @@
+<section id="faq" class="py-20 md:py-32 bg-white">
+	{% set faqs = [
+		{
+			question: 'What is Ticko?',
+			answer: 'Ticko is a modern ticket management system designed to help teams track, prioritize, and resolve issues efficiently. It provides real-time collaboration, automation, and detailed analytics.',
+		},
+		{
+			question: 'How do I get started?',
+			answer: 'Simply sign up for a free account, create your first project, and start creating tickets. No credit card required and you can be up and running in minutes.',
+		},
+		{
+			question: 'Can I integrate with other tools?',
+			answer: 'Yes! Ticko integrates with popular tools like Slack, email, webhooks, and more. Check our integrations page for the full list.',
+		},
+		{
+			question: 'Is my data secure?',
+			answer: 'Absolutely. We use industry-standard encryption and security practices to protect your data. We also offer SSO and advanced permission controls.',
+		},
+		{
+			question: 'What is your pricing?',
+			answer: 'We offer flexible pricing plans starting from free. Visit our pricing page to see all available options and choose the plan that fits your needs.',
+		},
+		{
+			question: 'Do you offer support?',
+			answer: 'Yes, we provide 24/7 customer support via email, chat, and phone. Our support team is always ready to help you.',
+		},
+	] %}
+
+	<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="text-center mb-16">
+			<h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+				Frequently Asked Questions
+			</h2>
+			<p class="text-lg text-gray-600">
+				Find answers to common questions about Ticko.
+			</p>
+		</div>
+
+		<div class="space-y-0 divide-y divide-gray-200  border-gray-200 rounded-lg overflow-hidden">
+			{% for faq in faqs %}
+				<div class="bg-white">
+					<button type="button" class="w-full text-left px-6 py-4 flex items-center justify-between text-gray-900 hover:text-blue-600 hover:underline transition-colors" onclick="toggleAccordion(this)">
+						<span class="font-semibold">{{ faq.question }}</span>
+						<svg class="accordion-icon w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+						</svg>
+					</button>
+					<div class="accordion-content hidden px-6 pb-4 text-gray-600">
+						{{ faq.answer }}
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+</section>
+
+<script>
+	function toggleAccordion(button) {
+const content = button.nextElementSibling;
+const icon = button.querySelector('.accordion-icon');
+const isOpen = ! content.classList.contains('hidden');
+
+// Close all accordions
+document.querySelectorAll('.accordion-content').forEach(item => {
+item.classList.add('hidden');
+});
+document.querySelectorAll('.accordion-icon').forEach(icon => {
+icon.classList.remove('rotate-180');
+});
+
+// Open clicked accordion if it was closed
+if (! isOpen) {
+content.classList.remove('hidden');
+icon.classList.add('rotate-180');
+}
+}
+</script>

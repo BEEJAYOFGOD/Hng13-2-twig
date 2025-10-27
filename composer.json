@@ -1,0 +1,12 @@
+{
+    "name": "user/twig-ticket-app",
+    "authors": [
+        {
+            "name": "Beejayofgod",
+            "email": "adexbolaji100@gmail.com"
+        }
+    ],
+    "require": {
+        "twig/twig": "^3.11"
+    }
+}

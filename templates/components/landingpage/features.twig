@@ -1,0 +1,65 @@
+{# templates/components/features.twig #}
+<section id="features" class="py-20 md:py-32 bg-gray-50">
+	<div
+		class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		{# Section header #}
+		<div class="text-center mb-16">
+			<h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+				Powerful Features for Modern Teams
+			</h2>
+			<p class="text-lg text-gray-600 max-w-2xl mx-auto">
+				Everything you need to manage tickets efficiently and keep your team aligned.
+			</p>
+		</div>
+
+		{# Features grid #}
+		<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+			{% set features = [
+                {
+                    'title': 'Real-time Collaboration',
+                    'description': 'Work together seamlessly with your team. See updates instantly and never miss important changes.',
+                    'icon': '👥'
+                },
+                {
+                    'title': 'Smart Prioritization',
+                    'description': 'Automatically prioritize tickets based on urgency, impact, and custom rules you define.',
+                    'icon': '⚡'
+                },
+                {
+                    'title': 'Advanced Filtering',
+                    'description': 'Find exactly what you need with powerful search and filtering capabilities.',
+                    'icon': '🔍'
+                },
+                {
+                    'title': 'Automation Rules',
+                    'description': 'Set up workflows that automatically assign, update, and resolve tickets.',
+                    'icon': '🤖'
+                },
+                {
+                    'title': 'Detailed Analytics',
+                    'description': 'Track metrics that matter. Get insights into team performance and ticket trends.',
+                    'icon': '📊'
+                },
+                {
+                    'title': 'Integrations',
+                    'description': 'Connect with your favorite tools. Slack, email, webhooks, and more.',
+                    'icon': '🔗'
+                }
+            ] %}
+
+			{% for feature in features %}
+				<div class="rounded-lg border border-gray-200 bg-white p-6 hover:border-blue-600/50 transition-colors">
+					<div class="text-4xl mb-4">
+						{{ feature.icon }}
+					</div>
+					<h3 class="text-xl font-semibold text-gray-900 mb-2">
+						{{ feature.title }}
+					</h3>
+					<p class="text-gray-600">
+						{{ feature.description }}
+					</p>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+</section>

@@ -1,0 +1,63 @@
+<section class="pt-64 md:pt-32 min-h-screen border-red-400 relative">
+    {# Animated decorative circles #}
+    <div class="bg-blue-600 h-6 w-6 animate-bounce absolute right-12 top-24 rounded-full"></div>
+    <div class="bg-blue-600 h-6 w-6 animate-bounce absolute left-12 bottom-48 rounded-full"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 z-4">
+        {# Badge #}
+        <div class="flex justify-center gap-3 items-center">
+            <span class="h-4 w-4 bg-blue-600 rounded-full animate-ping"></span>
+            <span class="px-3 py-1 bg-blue-600/10 text-blue-600 rounded-full text-sm font-medium">
+                Streamline Your Workflow
+            </span>
+        </div>
+
+        {# Title #}
+        <h1 class="text-4xl md:text-5xl text-center lg:text-6xl font-bold text-gray-900 leading-tight">
+            Manage Tickets with
+            <span class="text-blue-600">Ease</span>
+        </h1>
+
+        {# Description #}
+        <p class="text-lg text-gray-600 max-w-lg text-center mx-auto">
+            Ticko is the modern ticket management system designed for teams that want to work smarter,
+            not harder. Track, prioritize, and resolve issues in real-time.
+        </p>
+
+        {# CTA Buttons #}
+        <div class="flex flex-col md:flex-row gap-4 pt-4 p-4 md:p-0 justify-center">
+            <a
+                href="/twig-ticket-app/auth/signup"
+                class="h-full text-center hover:bg-blue-700 text-white bg-blue-600 px-24 py-4 rounded-md transition-colors"
+            >
+                Get Started Free
+            </a>
+
+            <a
+                href="#features"
+                class="h-full text-black text-center hover:bg-black/5 border-2 px-24 py-4 rounded-md transition-colors"
+            >
+                Learn More
+            </a>
+        </div>
+
+        {# Footer text #}
+        <p class="text-sm text-gray-600 text-center">
+            No credit card required · Start managing tickets in minutes.
+        </p>
+    </div>
+
+    {# Wave decoration #}
+    <div class="absolute bottom-0 w-full">
+        <img
+            class="w-[200%] hidden md:block"
+            src="/twig-ticket-app/public/assets/wave.svg"
+            alt="Wave decoration"
+        />
+        <img
+            class="w-[200%] block md:hidden"
+            src="/twig-ticket-app/public/assets/wave-mobile.svg"
+            alt="Wave decoration"
+        />
+    </div>
+</section>
