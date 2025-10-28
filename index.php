@@ -16,32 +16,44 @@ $base_path = '/twig-ticket-app';
 $path = str_replace($base_path, '', parse_url($request_uri, PHP_URL_PATH));
 
 // Route handling
-switch ($path) {
-    case '/':
-    case '/index.php':
+switch (true) {
+    case $path === '/' || $path === '/index.php':
         echo $twig->render('pages/landing.twig');
         break;
-    
-    case '/auth/login':
+
+    case $path === '/auth/login':
         echo $twig->render('pages/auth/login.twig');
         break;
-    
-    case '/auth/signup':
+
+    case $path === '/auth/signup':
         echo $twig->render('pages/auth/signup.twig');
         break;
-    
-    case '/dashboard':
+
+    case $path === '/dashboard':
         echo $twig->render('pages/dashboard/dashboard.twig');
         break;
-    
-    case '/tickets':
+
+    case $path === '/tickets':
         echo $twig->render('pages/dashboard/tickets.twig');
         break;
-    
-    case '/tickets/create':
+
+    case $path === '/tickets/active':
+        echo $twig->render('pages/dashboard/tickets.twig');
+        break;
+
+    case $path === '/tickets/create':
         echo $twig->render('pages/dashboard/ticket_form.twig', ['mode' => 'create']);
         break;
-    
+
+    case preg_match('#^/tickets/edit/(.+)$#', $path, $matches):
+        // Extract ticket ID from URL
+        $ticketId = $matches[1];
+        echo $twig->render('pages/dashboard/ticket_form.twig', [
+            'mode' => 'edit',
+            'ticketId' => $ticketId
+        ]);
+        break;
+
     default:
         header('Location: ' . $base_path . '/');
         exit;

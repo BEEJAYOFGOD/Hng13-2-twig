@@ -9,22 +9,34 @@ const errors = {};
 // AUTH LOGIC
 // ============================================
 
-const login = (credentials) => {
+const signup = (userData) => {
+    // Get stored users from localStorage
     const users = JSON.parse(localStorage.getItem("ticketapp_users") || "[]");
-    const user = users.find((u) => u.email === credentials.email);
 
-    if (!user) {
-        return { success: false, error: "Invalid email or password" };
+    // Check if email already exists
+    const existingUser = users.find((u) => u.email === userData.email);
+    if (existingUser) {
+        return { success: false, error: "Email already registered" };
     }
 
-    if (user.password !== credentials.password) {
-        return { success: false, error: "Invalid email or password" };
-    }
+    // Create new user
+    const newUser = {
+        id: Date.now().toString(),
+        name: userData.name,
+        email: userData.email,
+        password: userData.password, // In production, hash this!
+        createdAt: new Date().toISOString(),
+    };
 
+    // Save to localStorage
+    users.push(newUser);
+    localStorage.setItem("ticketapp_users", JSON.stringify(users));
+
+    // Create session
     const session = {
-        id: user.id,
-        email: user.email,
-        name: user.name,
+        id: newUser.id,
+        email: newUser.email,
+        name: newUser.name,
         loggedInAt: new Date().toISOString(),
     };
 
@@ -38,30 +50,29 @@ const login = (credentials) => {
 // ============================================
 
 const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    // Clear error while typing
+    const { name } = e.target;
     if (errors[name]) {
         clearError(name);
         delete errors[name];
     }
 
-    // Optional: Real-time validation as user types (validates on valid input)
-    // Uncomment the lines below if you want live validation
-    /*
-    const form = document.getElementById("loginForm");
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData);
-
-    if (value.trim()) {
-        validateField(name, value, data);
+    // If password changes, also revalidate confirmPassword
+    if (name === "password") {
+        const confirmPasswordInput = document.getElementById("confirmPassword");
+        if (
+            confirmPasswordInput &&
+            confirmPasswordInput.value &&
+            errors.confirmPassword
+        ) {
+            clearError("confirmPassword");
+            delete errors.confirmPassword;
+        }
     }
-    */
 };
 
 const handleBlur = (e) => {
     const { name, value } = e.target;
-    const form = document.getElementById("loginForm");
+    const form = document.getElementById("signupForm");
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
 
@@ -71,39 +82,45 @@ const handleBlur = (e) => {
 const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const form = document.getElementById("loginForm");
+    const form = document.getElementById("signupForm");
     const formData = new FormData(form);
     const data = {
+        name: formData.get("name"),
         email: formData.get("email"),
         password: formData.get("password"),
+        confirmPassword: formData.get("confirmPassword"),
     };
 
     // Clear all errors first
-    clearAllErrors("email", "password");
+    clearAllErrors("name", "email", "password", "confirmPassword");
 
     // Validate all fields
-    const isValid = validateFields(["email", "password"], data);
+    const isValid = validateFields(
+        ["name", "email", "password", "confirmPassword"],
+        data
+    );
 
     if (!isValid) {
         showToast("Please fix the errors in the form", "error");
         return;
     }
 
-    setLoading(true, "submitBtn", "loginForm");
+    setLoading(true, "submitBtn", "signupForm");
 
+    // Simulate API call delay
     await new Promise((resolve) => setTimeout(resolve, 500));
 
-    const result = login(data);
-    setLoading(false, "submitBtn", "loginForm");
+    const result = signup(data);
+    setLoading(false, "submitBtn", "signupForm");
 
     if (result.success) {
-        showToast("Login successful! Redirecting...", "success");
+        showToast("Account created successfully! Redirecting...", "success");
         form.reset();
         setTimeout(() => {
             window.location.href = "/twig-ticket-app/dashboard";
         }, 1000);
     } else {
-        showToast(result.error || "Login failed", "error");
+        showToast(result.error || "Signup failed", "error");
     }
 };
 
@@ -112,17 +129,25 @@ const handleSubmit = async (e) => {
 // ============================================
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Check if already authenticated
     if (typeof isAuthenticated === "function" && isAuthenticated()) {
         window.location.href = "/twig-ticket-app/dashboard";
         return;
     }
 
-    const form = document.getElementById("loginForm");
+    const form = document.getElementById("signupForm");
+    const nameInput = document.getElementById("name");
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
+    const confirmPasswordInput = document.getElementById("confirmPassword");
 
     if (form) {
         form.addEventListener("submit", handleSubmit);
+    }
+
+    if (nameInput) {
+        nameInput.addEventListener("input", handleChange);
+        nameInput.addEventListener("blur", handleBlur);
     }
 
     if (emailInput) {
@@ -133,5 +158,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (passwordInput) {
         passwordInput.addEventListener("input", handleChange);
         passwordInput.addEventListener("blur", handleBlur);
+    }
+
+    if (confirmPasswordInput) {
+        confirmPasswordInput.addEventListener("input", handleChange);
+        confirmPasswordInput.addEventListener("blur", handleBlur);
     }
 });

@@ -1,0 +1,47 @@
+<div class="border border-gray-200 rounded-lg shadow-sm bg-white">
+	<div class="pt-6 px-6 pb-6">
+		<form
+			id="signupForm" class="space-y-4">
+			<!-- Name -->
+			<div class="space-y-2">
+				<label for="name" class="text-sm font-medium text-gray-900">
+					Full Name
+				</label>
+				<input id="name" type="text" name="name" placeholder="John Doe" class="flex h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" aria-invalid="false"/>
+				<p id="name-error" class="text-sm text-red-500 hidden" role="alert"></p>
+			</div>
+
+			<!-- Email -->
+			<div class="space-y-2">
+				<label for="email" class="text-sm font-medium text-gray-900">
+					Email Address
+				</label>
+				<input id="email" type="email" name="email" placeholder="you@example.com" class="flex h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" aria-invalid="false"/>
+				<p id="email-error" class="text-sm text-red-500 hidden" role="alert"></p>
+			</div>
+
+			<!-- Password -->
+			<div class="space-y-2">
+				<label for="password" class="text-sm font-medium text-gray-900">
+					Password
+				</label>
+				<input id="password" type="password" name="password" placeholder="••••••••" class="flex h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" aria-invalid="false"/>
+				<p id="password-error" class="text-sm text-red-500 hidden" role="alert"></p>
+			</div>
+
+			<!-- Confirm Password -->
+			<div class="space-y-2">
+				<label for="confirmPassword" class="text-sm font-medium text-gray-900">
+					Confirm Password
+				</label>
+				<input id="confirmPassword" type="password" name="confirmPassword" placeholder="••••••••" class="flex h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" aria-invalid="false"/>
+				<p id="confirmPassword-error" class="text-sm text-red-500 hidden" role="alert"></p>
+			</div>
+
+			<!-- Submit Button -->
+			<button id="submitBtn" type="submit" data-default-text="Create Account" data-loading-text="Creating account..." class="w-full inline-flex items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
+				Create Account
+			</button>
+		</form>
+	</div>
+</div>
