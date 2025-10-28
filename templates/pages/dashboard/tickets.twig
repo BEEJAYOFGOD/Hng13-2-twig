@@ -1,6 +1,35 @@
 {# tickets.twig #}
 {% extends "layout/base.twig" %}
 
+{% block head %}
+	{# Hide page until auth is verified #}
+	<style>
+		html {
+			visibility: hidden;
+			opacity: 0;
+		}
+		html.auth-verified {
+			visibility: visible;
+			opacity: 1;
+		}
+	</style>
+
+	{# Check auth IMMEDIATELY before anything renders #}
+	<script>
+		(function () { // Check for auth token in localStorage
+const authToken = localStorage.getItem('ticketapp_session');
+
+if (! authToken) { // No auth token - redirect immediately
+const basePath = '{{ base_path }}';
+window.location.replace(basePath + '/auth/login');
+} else { // Auth token exists - show the page
+document.documentElement.classList.add('auth-verified');
+}
+})();
+	</script>
+{% endblock %}
+
+
 {% block content %}
 
 {% include 'components/dashboard/header.twig' %}

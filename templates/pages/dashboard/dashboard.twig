@@ -21,7 +21,8 @@
 	<script>
 		(function() {
 			// Check for auth token in localStorage
-			const authToken = localStorage.getItem('supabase.auth.token');
+const authToken = localStorage.getItem('ticketapp_session');
+
 
 			if (!authToken) {
 				// No auth token - redirect immediately
