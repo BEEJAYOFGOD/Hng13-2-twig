@@ -9,7 +9,9 @@
 	"scripts": {
 		"post-install-cmd": [
 			"npm install",
-			"npm run build"
+			"npm run build",
+			"mkdir -p cache",
+			"chmod 755 cache"
 		],
 		"post-update-cmd": [
 			"npm install",
