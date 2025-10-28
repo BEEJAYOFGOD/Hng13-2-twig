@@ -1,1 +1,1 @@
-web: php -S localhost:3000
+web: php -S 0.0.0.0:${PORT:-8080}
