@@ -12,12 +12,12 @@
 
 	<!-- Filter tabs -->
 	<div class="flex gap-4 mb-6">
-		<a href="tickets" id="allTicketsTab" class="px-4 py-2 rounded-lg transition-colors bg-primary hover:bg-hover text-white">
+		<button id="allTicketsTab" class="px-4 py-2 rounded-lg transition-colors bg-primary text-white">
 			All Tickets
-		</a>
-		<a href="tickets/active" id="activeTicketsTab" class="px-4 py-2 rounded-lg transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300">
+		</button>
+		<button id="activeTicketsTab" class="px-4 py-2 rounded-lg transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300">
 			Active Tickets
-		</a>
+		</button>
 	</div>
 
 	<div class="space-y-3" id="ticketsContainer">
@@ -48,23 +48,17 @@
 <script>
 (function() {
 	// ============================================
-	// ROUTE DETECTION
+	// STATE MANAGEMENT
 	// ============================================
 
-	const getCurrentRoute = () => {
-		return window.location.pathname;
-	};
-
-	const isActiveTicketsRoute = () => {
-		return getCurrentRoute() === '/tickets/active';
-	};
+	let currentFilter = 'all'; // 'all' or 'active'
 
 	// ============================================
 	// FILTER & RENDER FUNCTIONS
 	// ============================================
 
 	const getDisplayedTickets = (tickets) => {
-		if (isActiveTicketsRoute()) {
+		if (currentFilter === 'active') {
 			return tickets.filter(
 				(ticket) => ticket.status === 'open' || ticket.status === 'in_progress'
 			);
@@ -76,7 +70,7 @@
 		const allTicketsTab = document.getElementById('allTicketsTab');
 		const activeTicketsTab = document.getElementById('activeTicketsTab');
 
-		if (isActiveTicketsRoute()) {
+		if (currentFilter === 'active') {
 			allTicketsTab.className = 'px-4 py-2 rounded-lg transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300';
 			activeTicketsTab.className = 'px-4 py-2 rounded-lg transition-colors bg-primary text-white';
 		} else {
@@ -92,7 +86,7 @@
 		const pageTitle = document.getElementById('pageTitle');
 
 		// Update page title
-		pageTitle.textContent = isActiveTicketsRoute() ? 'Active Tickets' : 'All Tickets';
+		pageTitle.textContent = currentFilter === 'active' ? 'Active Tickets' : 'All Tickets';
 
 		// Update active tab styling
 		updateActiveTab();
@@ -101,8 +95,8 @@
 		if (displayedTickets.length === 0) {
 			container.innerHTML = `
 				<p class="text-center text-muted-foreground py-8">
-					${isActiveTicketsRoute() ? 'No active tickets.' : 'No tickets yet.'}
-					<a class="hover:underline" href="/dashboard">
+					${currentFilter === 'active' ? 'No active tickets.' : 'No tickets yet.'}
+					<a class="hover:underline" href="/twig-ticket-app/dashboard">
 						Create your first ticket here
 					</a>
 				</p>
@@ -117,15 +111,36 @@
 	};
 
 	// ============================================
+	// EVENT HANDLERS
+	// ============================================
+
+	const handleFilterChange = (filter) => {
+		currentFilter = filter;
+		renderTickets();
+	};
+
+	// ============================================
 	// INITIALIZATION
 	// ============================================
 
 	document.addEventListener('DOMContentLoaded', () => {
 		// Initialize delete dialog with refresh callback
 		const deleteDialog = createDeleteDialog();
-		deleteDialog.initialize(renderTickets);
+		deleteDialog.initialize(() => {
+			deleteTicket(ticketToDelete.id);
+			renderTickets();
+		});
 
-		// Render tickets
+		// Add click event listeners to filter tabs
+		document.getElementById('allTicketsTab').addEventListener('click', () => {
+			handleFilterChange('all');
+		});
+
+		document.getElementById('activeTicketsTab').addEventListener('click', () => {
+			handleFilterChange('active');
+		});
+
+		// Initial render
 		renderTickets();
 	});
 })();

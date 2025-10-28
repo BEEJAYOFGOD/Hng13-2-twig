@@ -71,7 +71,7 @@ const renderTicketCard = (ticket, showActions = true) => {
     return `
         <div class="bg-white border-2 border-gray-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-200">
             <!-- Card Header -->
-            <div class="p-5 border-b border-gray-100">
+            <div class="border-b border-gray-100">
                 <div class="flex justify-between items-start gap-3 mb-3 p-4">
                     <h3 class="text-lg font-semibold text-gray-900 flex-1 leading-tight">
                         ${escapeHtml(ticket.title)}
