@@ -10,6 +10,10 @@ A modern, responsive ticket management web application built with Twig templatin
 - **Tailwind CSS** - For styling
 - **LocalStorage API** - For authentication and data persistence
 
+
+
+
+
 ## 📋 Features
 
 - **Landing Page** with wavy hero section and decorative elements
