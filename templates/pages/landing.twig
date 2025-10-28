@@ -7,42 +7,38 @@
 
 
 	{# Header #}
-<header class="fixed top-0  -translate-x-1/2 w-full max-w-[1440px] z-50 bg-white border-b border-gray-200">
-	<div class="mx-auto px-4 sm:px-6 lg:px-8 max-w-[1440px]">
-		<div class="flex items-center justify-between h-16">
+<header class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-[1440px] z-50 bg-white border-b border-gray-200">
+  <div class="mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
 
-				<a href="{{base_path}}" class="flex items-center gap-2">
-					<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+      <a href="{{ base_path }}/" class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+          <span class="text-white font-bold text-lg">T</span>
+        </div>
+        <span class="font-bold text-xl text-gray-900">Ticko</span>
+      </a>
 
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="#features" class="text-gray-700 hover:text-primary transition-colors">Features</a>
+        <a href="#how-it-works" class="text-gray-700 hover:text-primary transition-colors">How It Works</a>
+        <a href="#faq" class="text-gray-700 hover:text-primary transition-colors">FAQ</a>
+      </nav>
 
-						<span class="text-white font-bold text-lg">T</span>
-					</div>
-					<span class="font-bold text-xl text-gray-900">Ticko</span>
-				</a>
+      <div class="flex items-center gap-3" id="auth-buttons">
+        <a href="{{ base_path }}/auth/login" class="px-4 py-2 text-gray-700 hover:text-blue-600 transition-colors">
+          Log in
+        </a>
+        <a href="{{ base_path }}/auth/signup" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-hover transition-colors">
+          Sign up
+        </a>
+      </div>
 
-				<nav class="hidden md:flex items-center gap-8">
-					<a href="#features" class="text-gray-700 hover:text-primary transition-colors">Features</a>
-					<a href="#how-it-works" class="text-gray-700 hover:text-primary transition-colors">FAQ</a>
-					<a href="#faq" class="text-gray-700 hover:text-primary transition-colors">How It Works</a>
+    </div>
+  </div>
+</header>
 
+<!-- Spacer to prevent content from hiding under fixed header -->
 
-				</nav>
-
-				<div class="flex items-center gap-3" id="auth-buttons">
-					<a href="{{ base_path }}/auth/login" class="px-4 py-2 text-gray-700 hover:text-blue-600 transition-colors">
-
-
-						Log in
-					</a>
-					<a href="{{ base_path }}/auth/signup" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-hover transition-colors">
-
-
-						Sign up
-					</a>
-				</div>
-			</div>
-		</div>
-	</header>
 
 
 	{# templates/components/hero.twig #}

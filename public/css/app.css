@@ -1650,6 +1650,10 @@ video {
     padding-top: 8rem;
   }
 
+  .md\:pt-28 {
+    padding-top: 7rem;
+  }
+
   .md\:text-2xl {
     font-size: 1.5rem;
     line-height: 2rem;
