@@ -19,8 +19,8 @@ const showToast = (message, type = "success") => {
     // Inline styles for toast
     toast.style.cssText = `
         position: fixed;
-        top: 12rem !important;
-        right: 8rem;
+        top: 6rem !important;
+        right: 3rem;
         padding: 0.75rem 1.5rem;
         border-radius: 0.5rem;
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -41,5 +41,5 @@ const showToast = (message, type = "success") => {
     setTimeout(() => {
         toast.style.opacity = "0";
         setTimeout(() => toast.remove(), 300);
-    }, 270000);
+    }, 2000);
 };

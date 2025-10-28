@@ -4,6 +4,7 @@
 {% block content %}
 
 {% include 'components/dashboard/header.twig' %}
+
 <main class="p-8 px-12 pt-24 max-w-[1440px] mx-auto">
 	<h1 class="text-3xl font-bold mb-4" id="pageTitle">
 		All Tickets
@@ -11,7 +12,7 @@
 
 	<!-- Filter tabs -->
 	<div class="flex gap-4 mb-6">
-		<a href="tickets" id="allTicketsTab" class="px-4 py-2 rounded-lg transition-colors bg-blue-600 text-white">
+		<a href="tickets" id="allTicketsTab" class="px-4 py-2 rounded-lg transition-colors bg-primary hover:bg-hover text-white">
 			All Tickets
 		</a>
 		<a href="tickets/active" id="activeTicketsTab" class="px-4 py-2 rounded-lg transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300">
@@ -19,8 +20,8 @@
 		</a>
 	</div>
 
-	<div
-		class="space-y-3" id="ticketsContainer"><!-- Tickets will be rendered here by JavaScript -->
+	<div class="space-y-3" id="ticketsContainer">
+		<!-- Tickets will be rendered here by JavaScript -->
 	</div>
 
 	<!-- Delete Dialog -->
@@ -45,228 +46,89 @@
 </main>
 
 <script>
-	// Import your ticket utilities (adjust path as needed)
-											// Assuming the utilities are available globally or imported via script tag
-	
-											(function() {
-											  let ticketToDelete = null;
-	
-											  // Get current route
-											  const getCurrentRoute = () => {
-											    return window.location.pathname;
-											  };
-	
-											  // Check if we're on the active tickets route
-											  const isActiveTicketsRoute = () => {
-											    return getCurrentRoute() === '/tickets/active';
-											  };
-	
-											  // Format date
-											  const formatDate = (dateString) => {
-											    return new Date(dateString).toLocaleDateString('en-US', {
-											      year: 'numeric',
-											      month: 'short',
-											      day: 'numeric',
-											    });
-											  };
-	
-											  // Get status color classes
-											  const getStatusColor = (status) => {
-											    switch (status) {
-											      case 'open':
-											        return 'bg-green-100 text-green-800';
-											      case 'in_progress':
-											        return 'bg-amber-100 text-amber-800 border-amber-300';
-											      case 'closed':
-											        return 'bg-gray-100 text-gray-800 border-gray-300';
-											      default:
-											        return '';
-											    }
-											  };
-	
-											  // Get status label
-											  const getStatusLabel = (status) => {
-											    switch (status) {
-											      case 'open':
-											        return 'Open';
-											      case 'in_progress':
-											        return 'In Progress';
-											      case 'closed':
-											        return 'Closed';
-											      default:
-											        return status;
-											    }
-											  };
-	
-											  // Filter tickets based on route
-											  const getDisplayedTickets = (tickets) => {
-											    if (isActiveTicketsRoute()) {
-											      return tickets.filter(
-											        (ticket) => ticket.status === 'open' || ticket.status === 'in_progress'
-											      );
-											    }
-											    return tickets;
-											  };
-	
-											  // Show toast notification (simple implementation)
-	
-											  // Render tickets
-											  const renderTickets = () => {
-											    const tickets = loadTickets();
-											    const displayedTickets = getDisplayedTickets(tickets);
-											    const container = document.getElementById('ticketsContainer');
-											    const pageTitle = document.getElementById('pageTitle');
-	
-											    // Update page title
-											    pageTitle.textContent = isActiveTicketsRoute() ? 'Active Tickets' : 'All Tickets';
-	
-											    // Update active tab
-											    const allTicketsTab = document.getElementById('allTicketsTab');
-											    const activeTicketsTab = document.getElementById('activeTicketsTab');
-	
-											    if (isActiveTicketsRoute()) {
-											      allTicketsTab.className = 'px-4 py-2 rounded-lg transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300';
-											      activeTicketsTab.className = 'px-4 py-2 rounded-lg transition-colors bg-blue-600 text-white';
-											    } else {
-											      allTicketsTab.className = 'px-4 py-2 rounded-lg transition-colors bg-blue-600 text-white';
-											      activeTicketsTab.className = 'px-4 py-2 rounded-lg transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300';
-											    }
-	
-											    if (displayedTickets.length === 0) {
-											      container.innerHTML = `
-											        <p class="text-center text-muted-foreground py-8">
-											          ${isActiveTicketsRoute() ? 'No active tickets.' : 'No tickets yet.'}
-											          <a class="hover:underline" href="/dashboard">
-											            Create your first ticket here
-											          </a>
-											        </p>
-											      `;
-											      return;
-											    }
-	
-											    container.innerHTML = displayedTickets.map(ticket => `
-											      <div class="bg-white border-2 border-gray-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-200">
-											        <!-- Card Header -->
-											        <div class="p-5 border-b border-gray-100">
-											          <div class="flex justify-between items-start gap-3 mb-3">
-											            <h3 class="text-lg font-semibold text-gray-900 flex-1 leading-tight">
-											              ${escapeHtml(ticket.title)}
-											            </h3>
-	
-											            <!-- Status Tag -->
-											            <span class="${getStatusColor(ticket.status)} px-3 py-1 rounded-full text-xs font-medium border whitespace-nowrap">
-											              ${getStatusLabel(ticket.status)}
-											            </span>
-											          </div>
-											        </div>
-	
-											        <!-- Card Content -->
-											        <div class="p-5 space-y-4">
-											          ${ticket.description ? `
-											            <p class="text-sm text-gray-600 leading-relaxed line-clamp-3">
-											              ${escapeHtml(ticket.description)}
-											            </p>
-											          ` : ''}
-	
-											          <!-- Card Footer -->
-											          <div class="flex items-center justify-between pt-3 border-t border-gray-100">
-											            <span class="text-xs text-gray-500">
-											              ${formatDate(ticket.createdAt)}
-											            </span>
-	
-											            <div class="flex gap-2">
-											              <button
-											                onclick="window.location.href='/tickets/edit/${ticket.id}'"
-											                class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-											              >
-											                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-											                  <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
-											                  <path d="m15 5 4 4"/>
-											                </svg>
-											              </button>
-											              <button
-											                data-ticket-id="${ticket.id}"
-											                data-ticket-title="${escapeHtml(ticket.title)}"
-											                class="delete-ticket-btn p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-											              >
-											                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-											                  <path d="M3 6h18"/>
-											                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-											                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-											                  <line x1="10" x2="10" y1="11" y2="17"/>
-											                  <line x1="14" x2="14" y1="11" y2="17"/>
-											                </svg>
-											              </button>
-											            </div>
-											          </div>
-											        </div>
-											      </div>
-											    `).join('');
-	
-											    // Attach delete button event listeners
-											    document.querySelectorAll('.delete-ticket-btn').forEach(btn => {
-											      btn.addEventListener('click', handleDeleteClick);
-											    });
-											  };
-	
-											  // Escape HTML to prevent XSS
-											  const escapeHtml = (text) => {
-											    const div = document.createElement('div');
-											    div.textContent = text;
-											    return div.innerHTML;
-											  };
-	
-											  // Handle delete click
-											  const handleDeleteClick = (e) => {
-											    const btn = e.currentTarget;
-											    const ticketId = btn.dataset.ticketId;
-											    const ticketTitle = btn.dataset.ticketTitle;
-	
-											    ticketToDelete = ticketId;
-	
-											    const dialog = document.getElementById('deleteDialog');
-											    const message = document.getElementById('deleteDialogMessage');
-	
-											    message.textContent = `Are you sure you want to delete "${ticketTitle}"? This action cannot be undone.`;
-											    dialog.classList.remove('hidden');
-											  };
-	
-											  // Confirm delete
-											  const confirmDelete = () => {
-											    if (ticketToDelete) {
-											      deleteTicket(ticketToDelete);
-											      showToast('Ticket deleted successfully');
-											      ticketToDelete = null;
-	
-											      const dialog = document.getElementById('deleteDialog');
-											      dialog.classList.add('hidden');
-	
-											      renderTickets();
-											    }
-											  };
-	
-											  // Cancel delete
-											  const cancelDelete = () => {
-											    ticketToDelete = null;
-											    const dialog = document.getElementById('deleteDialog');
-											    dialog.classList.add('hidden');
-											  };
-	
-											  // Initialize
-											  document.addEventListener('DOMContentLoaded', () => {
-											    renderTickets();
-	
-											    // Attach dialog button listeners
-											    document.getElementById('confirmDeleteBtn').addEventListener('click', confirmDelete);
-											    document.getElementById('cancelDeleteBtn').addEventListener('click', cancelDelete);
-	
-											    // Close dialog on background click
-											    document.getElementById('deleteDialog').addEventListener('click', (e) => {
-											      if (e.target.id === 'deleteDialog') {
-											        cancelDelete();
-											      }
-											    });
-											  });
-											})();
-											</script>
-											{% endblock %}
+(function() {
+	// ============================================
+	// ROUTE DETECTION
+	// ============================================
+
+	const getCurrentRoute = () => {
+		return window.location.pathname;
+	};
+
+	const isActiveTicketsRoute = () => {
+		return getCurrentRoute() === '/tickets/active';
+	};
+
+	// ============================================
+	// FILTER & RENDER FUNCTIONS
+	// ============================================
+
+	const getDisplayedTickets = (tickets) => {
+		if (isActiveTicketsRoute()) {
+			return tickets.filter(
+				(ticket) => ticket.status === 'open' || ticket.status === 'in_progress'
+			);
+		}
+		return tickets;
+	};
+
+	const updateActiveTab = () => {
+		const allTicketsTab = document.getElementById('allTicketsTab');
+		const activeTicketsTab = document.getElementById('activeTicketsTab');
+
+		if (isActiveTicketsRoute()) {
+			allTicketsTab.className = 'px-4 py-2 rounded-lg transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300';
+			activeTicketsTab.className = 'px-4 py-2 rounded-lg transition-colors bg-primary text-white';
+		} else {
+			allTicketsTab.className = 'px-4 py-2 rounded-lg transition-colors bg-primary text-white';
+			activeTicketsTab.className = 'px-4 py-2 rounded-lg transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300';
+		}
+	};
+
+	const renderTickets = () => {
+		const tickets = loadTickets();
+		const displayedTickets = getDisplayedTickets(tickets);
+		const container = document.getElementById('ticketsContainer');
+		const pageTitle = document.getElementById('pageTitle');
+
+		// Update page title
+		pageTitle.textContent = isActiveTicketsRoute() ? 'Active Tickets' : 'All Tickets';
+
+		// Update active tab styling
+		updateActiveTab();
+
+		// Show empty state if no tickets
+		if (displayedTickets.length === 0) {
+			container.innerHTML = `
+				<p class="text-center text-muted-foreground py-8">
+					${isActiveTicketsRoute() ? 'No active tickets.' : 'No tickets yet.'}
+					<a class="hover:underline" href="/dashboard">
+						Create your first ticket here
+					</a>
+				</p>
+			`;
+			return;
+		}
+
+		// Render tickets using shared utility function
+		container.innerHTML = displayedTickets
+			.map(ticket => renderTicketCard(ticket, true))
+			.join('');
+	};
+
+	// ============================================
+	// INITIALIZATION
+	// ============================================
+
+	document.addEventListener('DOMContentLoaded', () => {
+		// Initialize delete dialog with refresh callback
+		const deleteDialog = createDeleteDialog();
+		deleteDialog.initialize(renderTickets);
+
+		// Render tickets
+		renderTickets();
+	});
+})();
+</script>
+
+{% endblock %}
