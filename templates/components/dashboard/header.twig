@@ -1,31 +1,24 @@
 {% block body %}
-<header class="w-full fixed top-0 left-0 right-0 max-w-[1440px] border-b bg-white z-50">
+	<header class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-[1440px] z-50 bg-white border-b border-gray-200">
+		<div class="flex mx-auto justify-between items-center px-4 sm:px-6 lg:px-12 py-4">
 
-
-
-		<div class="flex mx-auto justify-between max-w-[1440px] items-center px-4 sm:px-6 lg:px-12 py-4">
-
-
-			<h1 class="md:text-3xl text-lg font-bold text-primary hover:text-hover hover:underline">
-
-
-				<a href="{{base_path}}/dashboard">Dashboard</a>
-
-
+			<h1 class="md:text-3xl text-lg font-bold text-primary hover:text-hover transition-colors">
+				<a href="{{ base_path }}/dashboard" class="hover:underline">Dashboard</a>
 			</h1>
 
 			<div class="flex gap-4 items-center">
-				<button id="logoutBtn" class="cursor-pointer bg-red-600/80 hover:bg-red-600/50 text-white px-4 py-2 rounded-md transition-colors">
+				<button id="logoutBtn" class="cursor-pointer bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition-colors">
 					Log Out
 				</button>
-				<div id="userAvatar" class="h-8 w-8 bg-primary flex justify-center items-center rounded-full">
-
-
-					<p id="userInitial" class="text-white font-semibold"></p>
+				<div id="userAvatar" class="h-10 w-10 bg-primary flex justify-center items-center rounded-full">
+					<p id="userInitial" class="text-white font-semibold text-sm"></p>
 				</div>
 			</div>
+
 		</div>
 	</header>
+
+	<!-- Spacer to prevent content from hiding under fixed header -->
 
 
 	<script>
