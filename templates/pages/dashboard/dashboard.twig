@@ -19,20 +19,17 @@
 
 	{# Check auth IMMEDIATELY before anything renders #}
 	<script>
-		(function() {
-			// Check for auth token in localStorage
+		(function () { // Check for auth token in localStorage
 const authToken = localStorage.getItem('ticketapp_session');
 
 
-			if (!authToken) {
-				// No auth token - redirect immediately
-				const basePath = '{{ base_path }}';
-				window.location.replace(basePath + '/auth/login');
-			} else {
-				// Auth token exists - show the page
-				document.documentElement.classList.add('auth-verified');
-			}
-		})();
+if (! authToken) { // No auth token - redirect immediately
+const basePath = '{{ base_path }}';
+window.location.replace(basePath + '/auth/login');
+} else { // Auth token exists - show the page
+document.documentElement.classList.add('auth-verified');
+}
+})();
 	</script>
 {% endblock %}
 
@@ -41,8 +38,8 @@ const authToken = localStorage.getItem('ticketapp_session');
 	{% include 'components/dashboard/header.twig' %}
 
 	<main class="pt-14">
-<section class="md:p-12 px-6 py-8 max-w-[1440px] mx-auto">
-	<h2 class="md:text-2xl text-lg font-bold">Welcome
+		<section class="md:p-12 px-6 py-8 max-w-[1440px] mx-auto">
+			<h2 class="md:text-2xl text-lg font-bold">Welcome
 
 
 				<span id="user-email"></span>
@@ -69,7 +66,7 @@ const authToken = localStorage.getItem('ticketapp_session');
 						<p class="text-xs text-gray-600">Start a new ticket to create a new issue</p>
 					</a>
 
-<a href="{{ base_path }}/tickets" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500/50 hover:bg-primary/5 transition-all cursor-pointer">
+					<a href="{{ base_path }}/tickets" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500/50 hover:bg-primary/5 transition-all cursor-pointer">
 
 						<div class="text-2xl mb-2">
 							<svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
