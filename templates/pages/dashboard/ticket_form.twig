@@ -10,7 +10,8 @@
 					Create New Ticket
 				</h1>
 
-				<form class="space-y-6" id="ticketForm">
+				<form
+					class="space-y-6" id="ticketForm">
 					<!-- Title -->
 					<div class="space-y-2">
 						<label for="title" class="block font-medium">
@@ -19,7 +20,7 @@
 						</label>
 						<input id="title" type="text" name="title" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter ticket title" aria-invalid="false"/>
 						<p id="title-error" class="text-sm text-red-600 flex items-center gap-1 hidden" role="alert">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
 								<circle cx="12" cy="12" r="10"/>
 								<line x1="12" x2="12" y1="8" y2="12"/>
 								<line x1="12" x2="12.01" y1="16" y2="16"/>
@@ -35,7 +36,7 @@
 						</label>
 						<textarea id="description" name="description" rows="4" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter ticket description (optional)" aria-invalid="false"></textarea>
 						<p id="description-error" class="text-sm text-red-600 flex items-center gap-1 hidden" role="alert">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
 								<circle cx="12" cy="12" r="10"/>
 								<line x1="12" x2="12" y1="8" y2="12"/>
 								<line x1="12" x2="12.01" y1="16" y2="16"/>
@@ -57,7 +58,7 @@
 							<option value="closed">Closed</option>
 						</select>
 						<p id="status-error" class="text-sm text-red-600 flex items-center gap-1 hidden" role="alert">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
 								<circle cx="12" cy="12" r="10"/>
 								<line x1="12" x2="12" y1="8" y2="12"/>
 								<line x1="12" x2="12.01" y1="16" y2="16"/>
@@ -94,266 +95,264 @@
 	</main>
 
 	<script>
-(function () {
-	// ============================================
-	// STATE
-	// ============================================
-	const formData = {
-		title: '',
-		description: '',
-		status: '',
-		priority: ''
-	};
+		(function () {
+// ============================================
+// STATE
+// ============================================
+const formData = {
+title: '',
+description: '',
+status: '',
+priority: ''
+};
 
-	let isEditMode = false;
-	let ticketId = null;
-	let isLoading = false;
+let isEditMode = false;
+let ticketId = null;
+let isLoading = false;
 
-	// ============================================
-	// VALIDATION FUNCTIONS
-	// ============================================
-	const validateTitle = (title) => {
-		if (!title.trim()) {
-			return {isValid: false, message: 'Title cannot be empty'};
-		}
-		if (title.trim().length < 3) {
-			return {isValid: false, message: 'Title must be at least 3 characters long'};
-		}
-		return {isValid: true, message: ''};
-	};
+// ============================================
+// VALIDATION FUNCTIONS
+// ============================================
+const validateTitle = (title) => {
+if (!title.trim()) {
+return {isValid: false, message: 'Title cannot be empty'};
+}
+if (title.trim().length < 3) {
+return {isValid: false, message: 'Title must be at least 3 characters long'};
+}
+return {isValid: true, message: ''};
+};
 
-	const validateDesc = (desc) => {
-		// Description is optional
-		if (desc && desc.trim().length < 10) {
-			return {isValid: false, message: 'Description must be at least 10 characters long'};
-		}
-		return {isValid: true, message: ''};
-	};
+const validateDesc = (desc) => { // Description is optional
+if (desc && desc.trim().length < 10) {
+return {isValid: false, message: 'Description must be at least 10 characters long'};
+}
+return {isValid: true, message: ''};
+};
 
-	const validateStatus = (status) => {
-		const validStatuses = ['open', 'in_progress', 'closed'];
+const validateStatus = (status) => {
+const validStatuses = ['open', 'in_progress', 'closed'];
 
-		if (!status.trim()) {
-			return {isValid: false, message: 'Status is required'};
-		}
+if (!status.trim()) {
+return {isValid: false, message: 'Status is required'};
+}
 
-		if (!validStatuses.includes(status)) {
-			return {isValid: false, message: 'Status must be open, in_progress, or closed'};
-		}
+if (! validStatuses.includes(status)) {
+return {isValid: false, message: 'Status must be open, in_progress, or closed'};
+}
 
-		return {isValid: true, message: ''};
-	};
+return {isValid: true, message: ''};
+};
 
-	const validateForm = () => {
-		clearAllErrors('title', 'description', 'status');
+const validateForm = () => {
+clearAllErrors('title', 'description', 'status');
 
-		const titleResult = validateTitle(formData.title);
-		const descResult = validateDesc(formData.description);
-		const statusResult = validateStatus(formData.status);
+const titleResult = validateTitle(formData.title);
+const descResult = validateDesc(formData.description);
+const statusResult = validateStatus(formData.status);
 
-		let isValid = true;
+let isValid = true;
 
-		if (!titleResult.isValid) {
-			showError('title', titleResult.message);
-			isValid = false;
-		}
+if (! titleResult.isValid) {
+showError('title', titleResult.message);
+isValid = false;
+}
 
-		if (!descResult.isValid) {
-			showError('description', descResult.message);
-			isValid = false;
-		}
+if (! descResult.isValid) {
+showError('description', descResult.message);
+isValid = false;
+}
 
-		if (!statusResult.isValid) {
-			showError('status', statusResult.message);
-			isValid = false;
-		}
+if (! statusResult.isValid) {
+showError('status', statusResult.message);
+isValid = false;
+}
 
-		return isValid;
-	};
+return isValid;
+};
 
-	// ============================================
-	// FORM UTILITIES
-	// ============================================
-	const clearForm = () => {
-		// Clear form data
-		formData.title = '';
-		formData.description = '';
-		formData.status = '';
-		formData.priority = '';
+// ============================================
+// FORM UTILITIES
+// ============================================
+const clearForm = () => { // Clear form data
+formData.title = '';
+formData.description = '';
+formData.status = '';
+formData.priority = '';
 
-		// Clear form inputs
-		document.getElementById('title').value = '';
-		document.getElementById('description').value = '';
-		document.getElementById('status').value = '';
-		document.getElementById('priority').value = '';
+// Clear form inputs
+document.getElementById('title').value = '';
+document.getElementById('description').value = '';
+document.getElementById('status').value = '';
+document.getElementById('priority').value = '';
 
-		// Clear all errors
-		clearAllErrors('title', 'description', 'status');
-	};
+// Clear all errors
+clearAllErrors('title', 'description', 'status');
+};
 
-	// ============================================
-	// LOAD TICKET DATA FOR EDITING
-	// ============================================
-	const loadTicket = (id) => {
-		const ticket = getTicketById(id);
+// ============================================
+// LOAD TICKET DATA FOR EDITING
+// ============================================
+const loadTicket = (id) => {
+const ticket = getTicketById(id);
 
-		if (ticket) {
-			formData.title = ticket.title;
-			formData.description = ticket.description || '';
-			formData.status = ticket.status;
-			formData.priority = ticket.priority || '';
+if (ticket) {
+formData.title = ticket.title;
+formData.description = ticket.description || '';
+formData.status = ticket.status;
+formData.priority = ticket.priority || '';
 
-			// Update form fields
-			document.getElementById('title').value = formData.title;
-			document.getElementById('description').value = formData.description;
-			document.getElementById('status').value = formData.status;
-			document.getElementById('priority').value = formData.priority;
-		} else {
-			showToast('Ticket not found', 'error');
-			window.location.href = '/tickets';
-		}
-	};
+// Update form fields
+document.getElementById('title').value = formData.title;
+document.getElementById('description').value = formData.description;
+document.getElementById('status').value = formData.status;
+document.getElementById('priority').value = formData.priority;
+} else {
+showToast('Ticket not found', 'error');
+window.location.href = '/tickets';
+}
+};
 
-	// ============================================
-	// DETECT EDIT MODE FROM URL
-	// ============================================
-	const detectEditMode = () => {
-		const path = window.location.pathname;
-		const editMatch = path.match(/\/tickets\/edit\/(.+)/);
+// ============================================
+// DETECT EDIT MODE FROM URL
+// ============================================
+const detectEditMode = () => {
+const path = window.location.pathname;
+const editMatch = path.match(/\/tickets\/edit\/(.+)/);
 
-		if (editMatch) {
-			isEditMode = true;
-			ticketId = editMatch[1];
+if (editMatch) {
+isEditMode = true;
+ticketId = editMatch[1];
 
-			// Update UI for edit mode
-			document.getElementById('formTitle').textContent = 'Edit Ticket';
-			document.getElementById('submitBtn').textContent = 'Update Ticket';
-			document.getElementById('submitBtn').setAttribute('data-loading-text', 'Updating...');
+// Update UI for edit mode
+document.getElementById('formTitle').textContent = 'Edit Ticket';
+document.getElementById('submitBtn').textContent = 'Update Ticket';
+document.getElementById('submitBtn').setAttribute('data-loading-text', 'Updating...');
 
-			// Load ticket data
-			loadTicket(ticketId);
-		}
-	};
+// Load ticket data
+loadTicket(ticketId);
+}
+};
 
-	// ============================================
-	// EVENT HANDLERS
-	// ============================================
-	const handleChange = (e) => {
-		const {name, value} = e.target;
-		formData[name] = value;
+// ============================================
+// EVENT HANDLERS
+// ============================================
+const handleChange = (e) => {
+const {name, value} = e.target;
+formData[name] = value;
 
-		// Clear error when user starts typing
-		clearError(name);
-	};
+// Clear error when user starts typing
+clearError(name);
+};
 
-	const handleBlur = (e) => {
-		const {name, value} = e.target;
+const handleBlur = (e) => {
+const {name, value} = e.target;
 
-		let result;
-		switch (name) {
-			case 'title':
-				result = validateTitle(value);
-				break;
-			case 'description':
-				result = validateDesc(value);
-				break;
-			case 'status':
-				result = validateStatus(value);
-				break;
-			default:
-				return;
-		}
+let result;
+switch (name) {
+case 'title': result = validateTitle(value);
+break;
+case 'description': result = validateDesc(value);
+break;
+case 'status': result = validateStatus(value);
+break;
+default:
+return;
+}
 
-		if (!result.isValid) {
-			showError(name, result.message);
-		}
-	};
+if (! result.isValid) {
+showError(name, result.message);
+}
+};
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
+const handleSubmit = async (e) => {
+e.preventDefault();
 
-		if (!validateForm()) {
-			showToast('Please fix the errors in the form', 'error');
-			return;
-		}
+if (! validateForm()) {
+showToast('Please fix the errors in the form', 'error');
+return;
+}
 
-		setLoading(true, 'submitBtn', 'ticketForm');
+setLoading(true, 'submitBtn', 'ticketForm');
 
-		try {
-			if (isEditMode && ticketId) {
-				// UPDATE existing ticket
-				updateTicket(ticketId, {
-					title: formData.title,
-					description: formData.description,
-					status: formData.status,
-					priority: formData.priority
-				});
-				showToast('Ticket updated successfully!', 'success');
+try {
+if (isEditMode && ticketId) { // UPDATE existing ticket
+updateTicket(ticketId, {
+title: formData.title,
+description: formData.description,
+status: formData.status,
+priority: formData.priority
+});
+showToast('Ticket updated successfully!', 'success');
 
-				// Clear form after successful update
-				clearForm();
-			} else {
-				// CREATE new ticket
-				const newTicket = {
-					id: 'ticket-' + Date.now(),
-					title: formData.title,
-					description: formData.description,
-					status: formData.status,
-					priority: formData.priority,
-					createdAt: new Date().toISOString()
-				};
-				addTicket(newTicket);
-				showToast('Ticket created successfully!', 'success');
+// Clear form after successful update
+clearForm();
+} else { // CREATE new ticket
+const newTicket = {
+id: 'ticket-' + Date.now(),
+title: formData.title,
+description: formData.description,
+status: formData.status,
+priority: formData.priority,
+createdAt: new Date().toISOString()
+};
+addTicket(newTicket);
+showToast('Ticket created successfully!', 'success');
 
-				// Clear form after successful creation
-				clearForm();
-			}
 
-			// Navigate back to tickets page after a short delay
-			setTimeout(() => {
-				window.location.href = 'twig-ticket-app/dashboard';
-			}, 1000);
-		} catch (error) {
-			console.error(error);
-			showToast(`Failed to ${isEditMode ? 'update' : 'create'} ticket`, 'error');
-			setLoading(false, 'submitBtn', 'ticketForm');
-		}
-	};
+// Clear form after successful creation
+clearForm();
+}
 
-	const handleCancel = () => {
-		window.location.href = '/twig-ticket-app/dashboard';
-	};
+// Navigate back to tickets page after a short delay
+setTimeout(() => {
+window.location.href = url('dashboard');
+}, 1000);
+} catch (error) {
+console.error(error);
+showToast (`Failed to ${
+isEditMode ? 'update' : 'create'
+} ticket`, 'error');
+setLoading(false, 'submitBtn', 'ticketForm');
+} finally {
+setLoading(false, 'submitBtn', 'ticketForm');
 
-	// ============================================
-	// INITIALIZE
-	// ============================================
-	document.addEventListener('DOMContentLoaded', () => {
-		// Detect if we're in edit mode
-		detectEditMode();
+}
+};
 
-		// Get form elements
-		const form = document.getElementById('ticketForm');
-		const titleInput = document.getElementById('title');
-		const descInput = document.getElementById('description');
-		const statusSelect = document.getElementById('status');
-		const prioritySelect = document.getElementById('priority');
-		const cancelBtn = document.getElementById('cancelBtn');
+const handleCancel = () => {
+window.location.href = '/dashboard';
+};
 
-		// Attach event listeners
-		titleInput.addEventListener('input', handleChange);
-		titleInput.addEventListener('blur', handleBlur);
+// ============================================
+// INITIALIZE
+// ============================================
+document.addEventListener('DOMContentLoaded', () => { // Detect if we're in edit mode
+detectEditMode();
 
-		descInput.addEventListener('input', handleChange);
-		descInput.addEventListener('blur', handleBlur);
+// Get form elements
+const form = document.getElementById('ticketForm');
+const titleInput = document.getElementById('title');
+const descInput = document.getElementById('description');
+const statusSelect = document.getElementById('status');
+const prioritySelect = document.getElementById('priority');
+const cancelBtn = document.getElementById('cancelBtn');
 
-		statusSelect.addEventListener('change', handleChange);
-		statusSelect.addEventListener('blur', handleBlur);
+// Attach event listeners
+titleInput.addEventListener('input', handleChange);
+titleInput.addEventListener('blur', handleBlur);
 
-		prioritySelect.addEventListener('change', handleChange);
+descInput.addEventListener('input', handleChange);
+descInput.addEventListener('blur', handleBlur);
 
-		form.addEventListener('submit', handleSubmit);
-		cancelBtn.addEventListener('click', handleCancel);
-	});
+statusSelect.addEventListener('change', handleChange);
+statusSelect.addEventListener('blur', handleBlur);
+
+prioritySelect.addEventListener('change', handleChange);
+
+form.addEventListener('submit', handleSubmit);
+cancelBtn.addEventListener('click', handleCancel);
+});
 })();
 	</script>
 {% endblock %}

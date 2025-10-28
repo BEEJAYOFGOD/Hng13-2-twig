@@ -4,25 +4,26 @@ function isAuthenticated() {
 }
 
 function requireAuth() {
-    if (!isAuthenticated()) {
-        window.location.href = "/twig-ticket-app/auth/login";
-    }
+	if (!isAuthenticated()) {
+		window.location.href = url("/auth/login");
+	}
 }
 
 function logout() {
-    localStorage.removeItem("ticketapp_session");
-    localStorage.removeItem("tickets");
-    window.location.href = "/twig-ticket-app/";
+	localStorage.removeItem("ticketapp_session");
+	localStorage.removeItem("tickets");
+	showToast("Log out successful", "success");
+	window.location.href = url("/");
 }
 
 function getUser() {
-    const session = localStorage.getItem("ticketapp_session");
-    return session ? JSON.parse(session) : null;
+	const session = localStorage.getItem("ticketapp_session");
+	return session ? JSON.parse(session) : null;
 }
 
 // Redirect if already logged in (for login/signup pages)
 function redirectIfAuthenticated() {
-    if (isAuthenticated()) {
-        window.location.href = "/twig-ticket-app/dashboard";
-    }
+	if (isAuthenticated()) {
+		window.location.href = url("dashboard");
+	}
 }

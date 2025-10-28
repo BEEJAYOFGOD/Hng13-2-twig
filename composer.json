@@ -1,12 +1,22 @@
 {
-    "name": "user/twig-ticket-app",
-    "authors": [
-        {
-            "name": "Beejayofgod",
-            "email": "adexbolaji100@gmail.com"
-        }
-    ],
-    "require": {
-        "twig/twig": "^3.11"
-    }
+	"name": "user/twig-ticket-app",
+	"authors": [
+		{
+			"name": "Beejayofgod",
+			"email": "adexbolaji100@gmail.com"
+		}
+	],
+	"scripts": {
+		"post-install-cmd": [
+			"npm install",
+			"npm run build"
+		],
+		"post-update-cmd": [
+			"npm install",
+			"npm run build"
+		]
+	},
+	"require": {
+		"twig/twig": "^3.11"
+	}
 }

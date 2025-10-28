@@ -12,6 +12,16 @@ $twig = new \Twig\Environment($loader, [
 $request_uri = $_SERVER['REQUEST_URI'];
 $base_path = '/twig-ticket-app';
 
+
+$twig->addGlobal('base_path', '/twig-ticket-app');
+
+// In your Twig setup file (e.g., bootstrap.php or wherever you initialize Twig)
+$twig->addFunction(new \Twig\TwigFunction('url', function ($path) {
+    $basePath = $_ENV['BASE_PATH'] ?? ''; // or however you define base_path
+    return rtrim($basePath, '/') . '/' . ltrim($path, '/');
+}));
+// Or for production: $twig->addGlobal('base_path', '');
+
 // Remove base path and query string
 $path = str_replace($base_path, '', parse_url($request_uri, PHP_URL_PATH));
 

@@ -27,7 +27,9 @@
 			<!-- Sign Up Link -->
 			<p class="text-center text-gray-600 text-sm mt-6">
 				Don't have an account?
-<a href="signup" class="text-blue-600 hover:underline font-medium">
+<a href="{{base_path}}/auth/signup" class="text-blue-600 hover:underline font-medium">
+
+
 
 
 					Sign up
@@ -38,5 +40,6 @@
 {% endblock %}
 
 {% block scripts %}
-	<script src="/twig-ticket-app/public/js/login.js"></script>
+<script src="/public/js/login.js"></script>
+
 {% endblock %}

@@ -13,22 +13,36 @@
 
 		{# Your compiled Tailwind CSS #}
 		<link
-		rel="stylesheet" href="/twig-ticket-app/public/css/app.css"> {# Custom CSS (if you have additional styles) #}
-		<link rel="stylesheet" href="/twig-ticket-app/public/css/styles.css"> {% block head %}{% endblock %}
+		rel="stylesheet" href="/public/css/app.css"> {# Custom CSS (if you have additional styles) #}
+		<link rel="stylesheet" href="/public/css/styles.css"> {% block head %}{% endblock %}
 		</head>
 		<body class="bg-gray-50"> {% block content %}{% endblock %}
 
 			{# Global Scripts #}
-<script src="/twig-ticket-app/public/js/utils/showToast.js"></script>
+			<script>
+				window.APP_CONFIG = {
+basePath: "{{ base_path }}"
+};
 
-<script src="/twig-ticket-app/public/js/utils/ui.js"></script>
+// Helper function to generate URLs
+window.url = function (path) {
+return `${
+window.APP_CONFIG.basePath
+}/${
+path.replace(/^\//, '')
+}`;
+};
+			</script>
 
-<script src="/twig-ticket-app/public/js/utils/validation.js"></script>
-<script src="/twig-ticket-app/public/js/utils/auth.js"></script>
-<script src="/twig-ticket-app/public/js/utils/tickets.js"></script>
-<script src="/twig-ticket-app/public/js/utils/dashboard.js"></script>
 
+			<script src="/public/js/utils/showToast.js"></script>
 
+			<script src="/public/js/utils/ui.js"></script>
+
+			<script src="/public/js/utils/validation.js"></script>
+			<script src="/public/js/utils/auth.js"></script>
+			<script src="/public/js/utils/tickets.js"></script>
+			<script src="/public/js/utils/dashboard.js"></script>
 
 
 			{% block scripts %}{% endblock %}

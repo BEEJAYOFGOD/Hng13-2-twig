@@ -4,7 +4,9 @@
 <h1 class="text-3xl font-bold text-primary hover:text-hover">
 
 
-				<a href="/twig-ticket-app/dashboard">Dashboard</a>
+<a href="{{base_path}}/dashboard">Dashboard</a>
+
+
 			</h1>
 
 			<div class="flex gap-4 items-center">
@@ -26,7 +28,9 @@
 (function () {
 const loadDashboardLayout = () => { // Check authentication
 if (typeof isAuthenticated === 'function' && !isAuthenticated()) {
-window.location.href = '/twig-ticket-app/auth/login';
+window.location.href = '/auth/login';
+
+
 return;
 }
 
@@ -48,7 +52,8 @@ if (typeof logout === 'function') {
 logout();
 } else { // Fallback logout
 localStorage.removeItem('ticketapp_session');
-window.location.href = '/twig-ticket-app/auth/login';
+window.location.href = '/auth/login';
+
 }
 });
 }

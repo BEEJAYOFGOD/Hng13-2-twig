@@ -54,6 +54,18 @@
 	let currentFilter = 'all'; // 'all' or 'active'
 
 	// ============================================
+	// ROUTE DETECTION
+	// ============================================
+
+	const getInitialFilter = () => {
+		const path = window.location.pathname;
+		if (path.includes('/tickets/active')) {
+			return 'active';
+		}
+		return 'all';
+	};
+
+	// ============================================
 	// FILTER & RENDER FUNCTIONS
 	// ============================================
 
@@ -93,16 +105,16 @@
 
 		// Show empty state if no tickets
 		if (displayedTickets.length === 0) {
-			container.innerHTML = `
-				<p class="text-center text-muted-foreground py-8">
-					${currentFilter === 'active' ? 'No active tickets.' : 'No tickets yet.'}
-					<a class="hover:underline" href="/twig-ticket-app/dashboard">
-						Create your first ticket here
-					</a>
-				</p>
-			`;
-			return;
-		}
+	container.innerHTML = `
+		<p class="text-center text-muted-foreground py-8">
+			${currentFilter === 'active' ? 'No active tickets.' : 'No tickets yet.'}
+			<a class="hover:underline rounded-md text-primary" href="${url('dashboard')}">
+				Create your first ticket here
+			</a>
+		</p>
+	`;
+	return;
+}
 
 		// Render tickets using shared utility function
 		container.innerHTML = displayedTickets
@@ -116,6 +128,13 @@
 
 	const handleFilterChange = (filter) => {
 		currentFilter = filter;
+
+		// Update URL without reloading the page
+		const newUrl = filter === 'active'
+			? url('tickets/active')
+			: url('/tickets');
+		window.history.pushState({filter}, '', newUrl);
+
 		renderTickets();
 	};
 
@@ -124,6 +143,9 @@
 	// ============================================
 
 	document.addEventListener('DOMContentLoaded', () => {
+		// Set initial filter based on URL
+		currentFilter = getInitialFilter();
+
 		// Initialize delete dialog with refresh callback
 		const deleteDialog = createDeleteDialog();
 		deleteDialog.initialize(() => {
@@ -138,6 +160,12 @@
 
 		document.getElementById('activeTicketsTab').addEventListener('click', () => {
 			handleFilterChange('active');
+		});
+
+		// Handle browser back/forward buttons
+		window.addEventListener('popstate', (event) => {
+			currentFilter = event.state?.filter || getInitialFilter();
+			renderTickets();
 		});
 
 		// Initial render

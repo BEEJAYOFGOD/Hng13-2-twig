@@ -38,73 +38,61 @@ const login = (credentials) => {
 // ============================================
 
 const handleChange = (e) => {
-    const { name, value } = e.target;
+	const { name, value } = e.target;
 
-    // Clear error while typing
-    if (errors[name]) {
-        clearError(name);
-        delete errors[name];
-    }
-
-    // Optional: Real-time validation as user types (validates on valid input)
-    // Uncomment the lines below if you want live validation
-    /*
-    const form = document.getElementById("loginForm");
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData);
-
-    if (value.trim()) {
-        validateField(name, value, data);
-    }
-    */
+	// Clear error while typing
+	if (errors[name]) {
+		clearError(name);
+		delete errors[name];
+	}
 };
 
 const handleBlur = (e) => {
-    const { name, value } = e.target;
-    const form = document.getElementById("loginForm");
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData);
+	const { name, value } = e.target;
+	const form = document.getElementById("loginForm");
+	const formData = new FormData(form);
+	const data = Object.fromEntries(formData);
 
-    validateField(name, value, data);
+	validateField(name, value, data);
 };
 
 const handleSubmit = async (e) => {
-    e.preventDefault();
+	e.preventDefault();
 
-    const form = document.getElementById("loginForm");
-    const formData = new FormData(form);
-    const data = {
-        email: formData.get("email"),
-        password: formData.get("password"),
-    };
+	const form = document.getElementById("loginForm");
+	const formData = new FormData(form);
+	const data = {
+		email: formData.get("email"),
+		password: formData.get("password"),
+	};
 
-    // Clear all errors first
-    clearAllErrors("email", "password");
+	// Clear all errors first
+	clearAllErrors("email", "password");
 
-    // Validate all fields
-    const isValid = validateFields(["email", "password"], data);
+	// Validate all fields
+	const isValid = validateFields(["email", "password"], data);
 
-    if (!isValid) {
-        showToast("Please fix the errors in the form", "error");
-        return;
-    }
+	if (!isValid) {
+		showToast("Please fix the errors in the form", "error");
+		return;
+	}
 
-    setLoading(true, "submitBtn", "loginForm");
+	setLoading(true, "submitBtn", "loginForm");
 
-    await new Promise((resolve) => setTimeout(resolve, 500));
+	await new Promise((resolve) => setTimeout(resolve, 500));
 
-    const result = login(data);
-    setLoading(false, "submitBtn", "loginForm");
+	const result = login(data);
+	setLoading(false, "submitBtn", "loginForm");
 
-    if (result.success) {
-        showToast("Login successful! Redirecting...", "success");
-        form.reset();
-        setTimeout(() => {
-            window.location.href = "/twig-ticket-app/dashboard";
-        }, 1000);
-    } else {
-        showToast(result.error || "Login failed", "error");
-    }
+	if (result.success) {
+		showToast("Login successful! Redirecting...", "success");
+		form.reset();
+		setTimeout(() => {
+			window.location.href = `${window.APP_CONFIG.basePath}/dashboard`;
+		}, 1000);
+	} else {
+		showToast(result.error || "Login failed", "error");
+	}
 };
 
 // ============================================
@@ -112,26 +100,26 @@ const handleSubmit = async (e) => {
 // ============================================
 
 document.addEventListener("DOMContentLoaded", () => {
-    if (typeof isAuthenticated === "function" && isAuthenticated()) {
-        window.location.href = "/twig-ticket-app/dashboard";
-        return;
-    }
+	if (typeof isAuthenticated === "function" && isAuthenticated()) {
+		window.location.href = url("dashboard");
+		return;
+	}
 
-    const form = document.getElementById("loginForm");
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
+	const form = document.getElementById("loginForm");
+	const emailInput = document.getElementById("email");
+	const passwordInput = document.getElementById("password");
 
-    if (form) {
-        form.addEventListener("submit", handleSubmit);
-    }
+	if (form) {
+		form.addEventListener("submit", handleSubmit);
+	}
 
-    if (emailInput) {
-        emailInput.addEventListener("input", handleChange);
-        emailInput.addEventListener("blur", handleBlur);
-    }
+	if (emailInput) {
+		emailInput.addEventListener("input", handleChange);
+		emailInput.addEventListener("blur", handleBlur);
+	}
 
-    if (passwordInput) {
-        passwordInput.addEventListener("input", handleChange);
-        passwordInput.addEventListener("blur", handleBlur);
-    }
+	if (passwordInput) {
+		passwordInput.addEventListener("input", handleChange);
+		passwordInput.addEventListener("blur", handleBlur);
+	}
 });

@@ -8,10 +8,10 @@
 		class="min-h-screen">
 		{# Header #}
 		<header class="fixed w-full top-0  z-50 bg-white border-b border-gray-200">
-			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
 				<div class="flex items-center justify-between h-16">
-					<a href="/twig-ticket-app/" class="flex items-center gap-2">
-<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+					<a href="{{base_path}}" class="flex items-center gap-2">
+						<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
 
 
 							<span class="text-white font-bold text-lg">T</span>
@@ -20,18 +20,22 @@
 					</a>
 
 					<nav class="hidden md:flex items-center gap-8">
-<a href="#features" class="text-gray-700 hover:text-primary transition-colors">Features</a>
-<a href="#how-it-works" class="text-gray-700 hover:text-primary transition-colors">FAQ</a>
-<a href="#faq" class="text-gray-700 hover:text-primary transition-colors">How It Works</a>
+						<a href="#features" class="text-gray-700 hover:text-primary transition-colors">Features</a>
+						<a href="#how-it-works" class="text-gray-700 hover:text-primary transition-colors">FAQ</a>
+						<a href="#faq" class="text-gray-700 hover:text-primary transition-colors">How It Works</a>
 
 
 					</nav>
 
 					<div class="flex items-center gap-3" id="auth-buttons">
-						<a href="/twig-ticket-app/auth/login" class="px-4 py-2 text-gray-700 hover:text-blue-600 transition-colors">
+						<a href="{{ base_path }}/auth/login" class="px-4 py-2 text-gray-700 hover:text-blue-600 transition-colors">
+
+
 							Log in
 						</a>
-						<a href="/twig-ticket-app/auth/signup" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+						<a href="{{ base_path }}/auth/signup" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-hover transition-colors">
+
+
 							Sign up
 						</a>
 					</div>
@@ -66,7 +70,11 @@ const authButtons = document.getElementById('auth-buttons');
 if (session) {
 const user = JSON.parse(session);
 authButtons.innerHTML = `
-<a href="/twig-ticket-app/dashboard" class="px-4 py-2 text-white hover:text-whiteW hover:bg-hover bg-primary rounded-md transition-colors">
+<a href="${
+url('dashboard')
+}" class="px-4py-2text-whitehover:text-whiteWhover:bg-hoverbg-primaryrounded-mdtransition-colors">
+
+
 
 
                     Dashboard

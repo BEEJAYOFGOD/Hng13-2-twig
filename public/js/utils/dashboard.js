@@ -58,7 +58,7 @@ const escapeHtml = (text) => {
  * Navigate to edit ticket page
  */
 const editTicket = (ticketId) => {
-    window.location.href = `/twig-ticket-app/tickets/edit/${ticketId}`;
+    window.location.href = `/tickets/edit/${ticketId}`;
 };
 
 /**
